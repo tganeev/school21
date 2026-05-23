@@ -22,17 +22,17 @@ int main() {
         while(n > 10) {
             n = n / 10;
             count++;
-            printf("%d\n", count);
+            //printf("%d\n", count);
 
         }
 
         if (max < n) {
             max = n;
-            printf("MAX: %d\n", max);
+            //printf("MAX: %d\n", max);
         }
 
 
-        printf("%d %d %d\n", count, num, n);
+        //printf("%d %d %d\n", count, num, n);
 
 
         if (count > 0) {
@@ -43,7 +43,7 @@ int main() {
             
             num = num - proizv;
             n = num;
-            printf("NUM and N: %d %d\n", n, num);
+            //printf("NUM and N: %d %d\n", n, num);
             count = 0;
             power = 1;
         } else {
