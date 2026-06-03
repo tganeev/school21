@@ -19,9 +19,7 @@ int main() {
             size++;
             string = realloc(string, size * sizeof(char));
         }
-
         i++;
-
     }
 
     for (int i = size - 3 ; i >= 0; i--) {
@@ -41,23 +39,13 @@ int main() {
             for (int j = i; string[j] != ' '; j++) {
                 printf("%c", string[j]);
             }
-           
         }
-
-
-                
     }
 
     printf("\n");
 
-
-
-
-
-
     free(string);
     
-
     return 0;
 
 }
