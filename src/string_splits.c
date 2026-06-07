@@ -1,38 +1,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
-    int i = 0, j = 0, size = 1, count = 0, space = 0;
-    char **string = malloc(size * sizeof(char*));
-    string[j] = malloc(size * sizeof(char));
+/*
+1. Выяснилось, что когда память для первой строки выделялась перед началом цикла while в нее записывались какие-то непонятные симвиолы перед первым словом.
+Непонятно, почему DeepSeek и Qwen в результате анализа кода написали, чтоб проблема в том, что я вывожу строки до ' ';
+2. Я сменил способ вывода информации на экран с посимволного на построковый.
 
-    while(1) {
-        scanf("%c", &string[j][i]);
-        if (string[j][i] == '\n') break;
+*/
+
+int string_splits(char ***string, int size) {
+    
+    int i = 0, j = 0, count = 0, space = 0;
+    
+    int ch;
+    
+    while((ch = getchar()) != '\n') {
+        
+        //printf("%c", string[j][i]);
+        if (i == 0) {
+            string[j] = malloc(size * sizeof(char));
+        }
+
+        string[j][i] = ch;
+        
+       
         if (string[j][i] == ' ') {
+            //string[j][i] = '\0';
             j++;
             space++;
             size = 1;
             i = 0;
-            string[j] = malloc(size * sizeof(char));
         } else {
             i++;
             size++;
-            string[j] = realloc(string[j], size * sizeof(char));
+            string[j] = realloc(string[j], size);
         }
-        
-
     }
+    return space + 1;
+}
 
-    printf("Result:\n");
+
+int main() {
+    int i = 0, j = 0, size = 1, count = 0;
+    char **string = malloc(size * sizeof(char*));
+    
+    int space = string_splits(&string, size);
+
+
+   printf("Result:\n");
     for (int i = 0; i < space; i++) {
-        for (int j = 0; string[i][j] != ' '; j++) {
-            printf("%c", string[i][j]);
-        }
-        printf("\n");
+     
+        printf("%s\n", string[i]);
+        free(string[i]);
     }
 
-   
+    
+    free(string);
 
     
       
