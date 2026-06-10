@@ -34,17 +34,27 @@ char* ft_itoa(int num, int size) {
 
 int main() {
  
-    int num;
+    int num, flag = 0;
     printf("Введите число: ");
     scanf("%d", &num);
+    if(num < 0) {
+        num = num * -1;
+        flag = 1;
+
+    }
+    if (num == 0) {
+        printf("Полученный результат: 0\n");
+        return 0;
+    }
 
     int size = ft_len(num);
 
     char *line = ft_itoa(num, size);
 
-     printf("Полученный результат: \n");
-    
+     printf("Полученный результат: ");
+    if (flag == 1) printf("-");
     for (int i = size; i >= 0; i--) {
+        
         printf("%c", line[i]);
     }
     
