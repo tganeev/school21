@@ -8,11 +8,17 @@ int main() {
 
     scanf("%d", &num);
 
-    if (num == 1) {
-        printf("1\n");
-        return 0;
+    if (num == 1 || num == 0) {
+        if (num == 1) {
+            printf("1\n");
+            return 0;
+        }
+        if (num == 0) {
+            printf("0\n");
+            return 0;
+        }
     }
-
+    
     while(num >= 1) {
         if (num % i == 0) {
             num = num / i;
@@ -25,16 +31,14 @@ int main() {
             i++;
         }
     }
-
     for (int i = 0; i < size - 2; i++) {
         printf("%d", arr[i]);
         if (i < size - 3) printf("*");
-    }
-    
+    }    
     printf("\n");
+    
 
     free(arr);
-
 
     return 0;
 }
