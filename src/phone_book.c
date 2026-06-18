@@ -68,9 +68,9 @@ t_contact add_contact(t_contact phone_book, int *count) {
 }
 
 void show_contact(t_contact phone_book, int *count) {
-    printf("Текущий счетчик: %d\n", *count);
+    
     printf("Список контактов: \n");
-            for (int i = 0; i < *count; i++) {
+           for (int i = 0; i < count; i++) {
                 printf("Имя: %s | Телефон: %d\n", phone_book.name[i], phone_book.number[i]);
             }
 }
@@ -105,12 +105,9 @@ int main() {
     }
         
     else if (n == 2) {
-
-        for (int i = 0; i < count; i++) {
-                printf("Имя: %s | Телефон: %d\n", phone_book.name[i], phone_book.number[i]);
-            }
-        //show_contact(phone_book, &count);        
+        show_contact(phone_book, count);        
     }
+
     else if (n == 3) {
         printf("Выбран выход\n");
         flag = 0;
