@@ -2,93 +2,115 @@
 #include <stdlib.h>
 
 
-void drawing(int d, int s) {
-    /*
-    for (int i = 0; i < 5; i++) {
-        field[i] = malloc(5 * sizeof(int));
-
-        for (int j = 5; j < 5; j++) {
-            field[i][j] = 0;
-        }
-    }
-
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            printf("%3d", field[i][j]);
-        }
-        printf("\n");
-    }
-    */
-
-    for (int i = 0; i < 15; i++) {
-        for (int j = 0; j < 35; j++) {
-            printf("*");
+void drawing(int **field, int col, int row, int y, int x, char sign) {
+   
+   for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            if (i == y && j == x) {
+                if (sign == '+') {
+                    printf("%3d", field[i][j]);
+                } else {
+                    printf("%3c", field[i][j]);
+                }
+                
+            } else {
+                printf("%3d", field[i][j]);
+            }
         }
         printf("\n");
     }
-
 
 }
 
 int main() {
 
-    int x = 5;
-    int y = 5;
-    int **field = malloc(5 * sizeof(int*));
+    int col = 15, row = 5, x = 0, y = 0, val;
+    char pointer = '*';
+    int **field = malloc(row * sizeof(int*));
 
-    int d = 0, s = 0;
-    
-    
-    //char ch = '!';
-    //int ch = 1041;
-
-    drawing(d, s);
-
-    while(1) {
-        
-    }    
-        
-
- 
-    //printf("%c\n", ch);
-    
-
-    //memset(field, 0, sizeof(field));
-    /*
-    
-    for (int i = 0; i < y; i++) {
-        for (int j = 0; j < x; j++) {
-            field[i][j] = 0;
+    for (int i = 0; i < row; i++) {
+        field[i] = malloc(col * sizeof(int)); 
+        for (int j = 0; j < col; j++) {
+            
+            if (i == y && j == x) {
+                field[i][j] = val;
+            } else {
+                field[i][j] = 0;
+            }
+            
         }
-        printf("\n");
     }
     
 
+    //drawing(field, col, row, y, x, ch);
+    //printf("val: %d x: %d y: %d arr: %d\n", val, x, y, field[y][x]);
+    system("clear");
+    printf("Нажмите клавишу A для начала\n");
+    char ch;
+    char sign = 't';
 
-    field[0][0] = 1;
+    //drawing(field, col, row, y, x, sign);
 
     
-
-    char ch;
-    int m = 0, n = 0;
-
-    while((ch = getchar()) != 'q') {
+    
+    while(1) {
+       
+        ch = getchar();
+        //sign = 't';
         
         if (ch == 'd') {
-            
-            field[m][cursor++] = 1;
-            field[m][n++] = 0;
-            for (int i = 0; i < y; i++) {
-                for (int j = 0; j < x; j++) {
-                    printf("%d ", field[i][j]);
-            }
-            printf("\n");
-            }
+            sign = 't';
+            field[y][x] = val;
+            x++;
+            val = field[y][x];
+            field[y][x] = pointer;
 
         }
-    }
 
-    */
+        if (ch == 's') {
+            sign = 't';
+            field[y][x] = val;
+            y++;
+            val = field[y][x];
+            field[y][x] = pointer;
+        }
+
+        if (ch == 'w') {
+            sign = 't';
+            field[y][x] = val;
+            y--;
+            val = field[y][x];
+            field[y][x] = pointer;
+        }
+
+        if (ch == 'a') {
+            sign = 't';
+            field[y][x] = val;
+            x--;
+            val = field[y][x];
+            field[y][x] = pointer;
+        }
+        if (ch == 'q') {
+            break;
+        }
+        if (ch == '+') {
+           sign = '+';
+           val++; 
+           field[y][x] = val;
+        }
+        if (ch == '-') {
+            sign = '+';
+           val--; 
+           field[y][x] = val;
+        }
+
+        system("clear");
+        
+        printf("sign: %c val: %d x: %d y: %d arr: %d  \n", sign, val, x, y, field[y][x]);
+        drawing(field, col, row, y, x, sign);
+                
+    }
+    
 
 
 
