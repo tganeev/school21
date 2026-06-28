@@ -110,6 +110,21 @@ int main() {
     printf("\n");
 
 
+    for (int i = 0; i < count; i++) {
+        free(person.first_name[i]);
+        free(person.second_name[i]);
+        free(person.age[i]);
+    }
+
+
+        free(person.first_name);
+        free(person.second_name);
+        free(person.age);
+
+
+    
+
+
 
 
     return 0;
