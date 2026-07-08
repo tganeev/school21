@@ -3,13 +3,26 @@
 #include <dirent.h>
 
 
-void get_files(char *path) {
-    
-    char **files = malloc(50 * sizeof(char*));
 
+void concatenate(char *dir, char *filename, char *files) {
+    int end = strlen(dir);
+
+    for (int i = 0; i < end; i++) {
+        filename[i] = dir[i];
+    }
+
+    for (int i = 0; i < strlen(files); i++) {
+        filename[end] = files[i];
+        end++;
+    }
+
+}
+
+int get_files(char *path, char **files) {
+    
     DIR *dir = opendir(path);
     int count = 0;
-
+   
     struct dirent *entity;
     int i = 0;
 
@@ -19,42 +32,34 @@ void get_files(char *path) {
             files[i] = malloc(15 * sizeof(char));
         
             for (int j = 0; j < strlen(entity->d_name); j++) {
-                
-                    
+
                         files[i][j] = entity->d_name[j];
                     
-                //printf("%c", entity->d_name[j]);
             }
      
             i++;
             count++;
         } 
-
-            
            
     }
 
-    for (int i = 0; i < count; i++) {
-            printf("%d.%s\n", i, files[i]);
-    }
-
     closedir(dir);
+    return count;
 }
 
 
-void cipher(char *filename) {
+void cipher(char *filename, int shift) {
 
-    printf("Введите смещение: ");
-    int shift = 0;
-    scanf("%d", &shift);
+    int size = strlen(filename);
 
-     
-    FILE *file = fopen(filename, "r+");
+    if (filename[size - 1] == 'c') {
 
-    if (file == NULL) {
-            printf("file doesn't exist\n");
-            return 0;
-    }
+        FILE *file = fopen(filename, "r+");
+
+        if (file == NULL) {
+                printf("file doesn't exist\n");
+                return 0;
+        }
 
     char ch;
     long pos;
@@ -68,8 +73,25 @@ void cipher(char *filename) {
 
     fclose(file);
     
-    printf("Файл зашифрован\n");
+    printf("Файл %s зашифрован\n", filename);
 
+    }
+
+    if (filename[size - 1] == 'h') {
+
+        FILE *file = fopen(filename, "w");
+
+        if (file == NULL) {
+                printf("file doesn't exist\n");
+                return 0;
+        }
+
+
+    fclose(file);
+    
+    printf("Файл %s очищен\n", filename);
+
+    }
 }
 
 
@@ -147,25 +169,26 @@ void read_file(char *filename) {
 int main() {
     
     int point;
+    int count;
     char *filename = malloc(200 * sizeof(char)); 
+    char **files = malloc(50 * sizeof(char*));
     
     while(1) {
-
-    /*
-    printf("Выберите пункт меню: \n");
-    printf(" 1. Прочитать данные из файла \n");
-    printf(" 2. Записать данные в файл \n");
-    printf(" 3. Зашифровать файл \n");
-    printf(" 4. Расшифровать файл \n");
-    printf("-1. Выход \n");
-    */
 
     scanf("%d", &point);
 
         while(getchar() != '\n');
 
         if (point == -1) {
-           free(filename); 
+
+           free(filename);
+
+           for (int i = 0; i < count; i++) {
+               free(files[i]);
+           } 
+
+           free(files);
+
            return 0;
         }
         
@@ -178,59 +201,25 @@ int main() {
         }
         
         if (point == 3) {
+           
+           printf("Введите смещение: ");
+           int shift = 0;
+           scanf("%d", &shift);
+           
+           count = get_files("./ai_modules/", files);
 
-            
-            get_files("./ai_modules/");
-            
-            //strcpy(filename, "/opt/goinfre/kindlyfr/Projects/school21/C/T13D19/ai_modules/cipher.c");
-            //printf("%s\n",filename);
-            //cipher(filename);
+           for (int i = 0; i < count; i++) {
+
+                concatenate("./ai_modules/", filename, files[i]);
+                cipher(filename, shift);
+
+           }
+
+           
+           
+          
         } 
     }
 
-     /*
-    while (fgets(buffer, sizeof(buffer ), file) != NULL) {
-            printf("%s", buffer);
-    };
-
-    printf("Введите текст для зашифровки: ");
-    char *text = malloc(1 * sizeof(char));
-    //char *abc = malloc(26 * sizeof(char));
-    char abc[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-    int size = 1;
-    
-    int i = 0;        
-    while(1) {
-        char ch = getchar();
-        text[i] = ch;
-        
-        
-        if (ch == '\n') {
-            text[i] = '\0';
-            break;
-        }
-
-        i++;
-        size++;
-        text = realloc(text, size * sizeof(char));
-    }
-
-    printf("Введите смещение: ");
-    int shift;
-    scanf("%d", &shift);
-
-    printf("Шифр: ");
-    
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            if (text[i] == abc[j]) {
-                printf("%c", abc[j + shift]);
-            }
-        }
-        
-    }
-    printf("\n");
-    */
-    
     return 0;
 }
