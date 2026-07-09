@@ -2,41 +2,42 @@
 #include <stdlib.h>
 
 typedef struct {
-    int **a;
-    int **f;
-    int **s;
+    long long **a;
+    long long **f;
+    long long **s;
 } orders;
 
-int main() 
-{
-    int n, t;
-    int pik = 0;
-    int max = 0;
+int main() {
+    
 
-    printf("Введите кол-во заявок и горизонт времени через пробел: ");
-    scanf("%d %d", &n, &t);
+    long long n, t;
+    long long pik = 0;
+    long long max = 0;
 
-    int p = n;
-    int u = n;
+    //printf("Введите кол-во заявок и горизонт времени через пробел: ");
+    scanf("%lld %lld", &n, &t);
 
-    printf("Введенные данные: %d %d\n", n, t);
+    long long p = n;
+    long long u = n;
+
+    //printf("Введенные данные: %d %d\n", n, t);
 
     orders count;
-    count.a = malloc(n * sizeof(int*));
-    count.f = malloc(n * sizeof(int*));
-    count.s = malloc(n * sizeof(int*));
+    count.a = malloc(n * sizeof(long long*));
+    count.f = malloc(n * sizeof(long long*));
+    count.s = malloc(n * sizeof(long long*));
 
-    int **pivot = malloc(100 * sizeof(int*));
+    long long **pivot = malloc(10000000 * sizeof(long long*));
 
     int i = 0;
 
     while(n >= 1) {
 
-        count.a[i] = malloc(1 * sizeof(int));
-        count.f[i] = malloc(1 * sizeof(int));
-        count.s[i] = malloc(1 * sizeof(int));
-        printf("Введите начало и конец интервало и кол-во велосипедов в заявке через пробел: ");
-        scanf("%d %d %d", &count.a[i][0], &count.f[i][0], &count.s[i][0]);
+        count.a[i] = malloc(1 * sizeof(long long));
+        count.f[i] = malloc(1 * sizeof(long long));
+        count.s[i] = malloc(1 * sizeof(long long));
+        //printf("Введите начало и конец интервало и кол-во велосипедов в заявке через пробел: ");
+        scanf("%lld %lld %lld", &count.a[i][0], &count.f[i][0], &count.s[i][0]);
         n--;
         i++;
     }
@@ -60,7 +61,6 @@ int main()
     int z = t;
     int w = t;
     
-
     while(z > 0) {
         pivot[x] = malloc(2 * sizeof(int));
         pivot[x][0] = x;
@@ -70,8 +70,8 @@ int main()
         z--;
     }
 
-    int k = 0;
-    int sum = 0;
+    long long k = 0;
+    long long sum = 0;
        
 
     for (int i = 0; i < w; i++) {
@@ -93,7 +93,27 @@ int main()
         
     }
 
-    printf("Пиковая загрузка: %d \n", sum);
+    printf("%lld\n", sum);
+
+
+    for (int i = 0; i < w; i++) {
+        free(pivot[i]);
+    }
+
+    free(pivot);
+
+    for (int i = 0; i < u; i++) {
+        free(count.a[i]);
+        free(count.f[i]);
+        free(count.s[i]);
+    }
+
+
+    free(count.a);
+    free(count.f);
+    free(count.s);
+   
+
     /*
     for (int i = 0; i < t; i++) {
         for (int j = 0; j < 3; j++) {
