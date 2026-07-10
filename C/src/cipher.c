@@ -21,14 +21,33 @@ int main() {
         filename[i] = c;
         i++;
     }
+    FILE *file = fopen(filename, "r+");
+    if (file == NULL) {
+        printf("n/a\n");
+        exit(1);
+    }
 
     printf("введите смещение: \n");
     scanf("%d", &shift);
 
-    FILE *file = fopen(filename, "r");
+    if (shift > 26) {
+        shift = shift % 26;
+    }
+
+    if (shift < -26) {
+        shift = shift % 26;
+    }
+
+   
     char ch;
+    int pos;
+    
     while ((ch = fgetc(file)) != EOF) {
         flag = 0;
+
+        pos = ftell(file) - 1;
+        fseek(file, pos, 0);
+               
         for (int i = 0; i < 26; i++) {
             if (ch == abc1[i]) {
                 flag = 2;
@@ -41,14 +60,17 @@ int main() {
 
         if (flag == 1) {
             if ((ch + shift) <= 90 && (ch + shift) >= 65 ) {
+                fputc(ch + shift, file);
                 printf("%c", ch + shift);
             }
 
             if ((ch + shift) > 90) {
+                fputc((ch + shift) - 26, file);
                 printf("%c", (ch + shift) - 26);
             }
 
             if ((ch + shift) < 65) {
+                fputc((ch + shift) + 26, file);
                 printf("%c", (ch + shift) + 26);
             }
         }
@@ -56,18 +78,22 @@ int main() {
         
         if (flag == 2) {
             if ((ch + shift) <= 122 && (ch + shift) >= 97 ) {
+                fputc(ch + shift, file);
                 printf("%c", ch + shift);
             }
             if ((ch + shift) > 122) {
+                fputc((ch + shift) - 26, file);
                 printf("%c", (ch + shift) - 26);
             }
 
             if ((ch + shift) < 97) {
+                fputc((ch + shift) + 26, file);
                 printf("%c", (ch + shift) + 26);
             }
         }
 
         if (flag == 0) {
+             fputc(ch, file);
              printf("%c", ch);
         }
 
