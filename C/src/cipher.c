@@ -16,9 +16,13 @@ int main() {
     
     printf("введите имя файла: \n");
 
-    while((c = getchar()) != '\n') {
+    while(1) {
 
-        filename[i] = c;
+        filename[i] = getchar();
+            if (filename[i] == '\n') {
+                filename[i] = '\0';
+                break;
+            }
         i++;
     }
     FILE *file = fopen(filename, "r+");
